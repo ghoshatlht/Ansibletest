@@ -1,0 +1,22 @@
+---
+- hosts: 192.168.3.2
+  gather_facts: true
+  connection: local
+
+
+  tasks:
+   - name: show run
+     ios_command:
+       commands:
+         - show run
+       host: "{{ ansible_host }}"
+       username: samya
+       password: pass
+     register: config
+
+   - name: save output to /home/samya/ansibleciscorouterdemo/output
+     copy:
+       content: "{{ config.stdout[0] }}"
+       dest: "/home/samya/ansibleciscorouterdemo/output/show_run_{{ inventory_hostname }}.txt"
+
+ 
